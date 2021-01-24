@@ -27,7 +27,7 @@ def decipher_response(status_code: int, body: bytes):
         return None
     decoded_body = body.decode("utf-8")
     data = json.loads(decoded_body)
-    if status_code in {200, 201, 204}:
+    if status_code in {200, 201, 202, 204}:
         return data
     else:
         try:

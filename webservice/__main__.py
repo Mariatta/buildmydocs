@@ -101,6 +101,7 @@ async def repo_installation_added(event, gh, *args, **kwargs):
                 },
             )
             print(rtd_resp)
+            await rtd_api.post(f"projects/{rtd_project_slug}/versions/latest/builds/")
             issue_url = response["url"]
 
             await gh.post(
