@@ -91,13 +91,15 @@ async def repo_installation_added(event, gh, *args, **kwargs):
                 oauth_token=installation_access_token["token"],
             )
             default_branch = branch_resp["default_branch"]
-            await rtd_api.patch(
+            print(f"default branch {default_branch}")
+            rtd_resp = await rtd_api.patch(
                 f"projects/{rtd_project_slug}/",
                 data={
                     "external_builds_enabled": True,
                     "default_branch": default_branch,
                 },
             )
+            print(rtd_resp)
             issue_url = response["url"]
 
             await gh.post(
