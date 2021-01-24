@@ -92,6 +92,7 @@ async def repo_installation_added(event, gh, *args, **kwargs):
             )
             default_branch = branch_resp["default_branch"]
             print(f"default branch {default_branch}")
+            await asyncio.sleep(10)
             rtd_resp = await rtd_api.patch(
                 f"projects/{rtd_project_slug}/",
                 data={
