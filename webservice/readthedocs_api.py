@@ -114,31 +114,13 @@ class ReadthedocsAPI:
     ):
         """Send a GET request for a single item to the specified endpoint."""
 
-        data, _ = await self._make_request(
+        data = await self._make_request(
             "GET",
             url,
             url_vars,
             b"",
         )
         return data
-
-    async def getiter(
-        self,
-        url,
-        url_vars={},
-    ):
-        """Return an async iterable for all the items at a specified endpoint."""
-        data, more = await self._make_request("GET", url, url_vars, b"")
-
-        if isinstance(data, dict) and "items" in data:
-            data = data["items"]
-
-        for item in data:
-            yield item
-        if more:
-            # `yield from` is not supported in coroutines.
-            async for item in self.getiter(more, url_vars):
-                yield item
 
     async def post(
         self,
