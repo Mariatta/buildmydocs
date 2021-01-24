@@ -55,8 +55,11 @@ async def repo_installation_added(event, gh, *args, **kwargs):
         private_key=os.environ.get("GH_PRIVATE_KEY"),
         app_id=os.environ.get("GH_APP_ID"),
     )
-
-    for repository in event.data["repositories"]:
+    if event.action == "added":
+        repositories = event.data["repositories_added"]
+    else:
+        repositories = event.data["repositories"]
+    for repository in repositories:
         url = f"/repos/{repository['full_name']}/issues"
         response = await gh.post(
             url,
