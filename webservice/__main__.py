@@ -46,6 +46,7 @@ async def webhook(request):
 
 
 @router.register("installation", action="created")
+@router.register("installation", action="added")
 async def repo_installation_added(event, gh, *args, **kwargs):
     installation_id = event.data["installation"]["id"]
     installation_access_token = await get_installation_access_token(
