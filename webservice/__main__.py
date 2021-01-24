@@ -55,7 +55,7 @@ async def repo_installation_added(event, gh, *args, **kwargs):
         private_key=os.environ.get("GH_PRIVATE_KEY"),
         app_id=os.environ.get("GH_APP_ID"),
     )
-    if event.data['action'] == "added":
+    if event.data["action"] == "added":
         repositories = event.data["repositories_added"]
     else:
         repositories = event.data["repositories"]
