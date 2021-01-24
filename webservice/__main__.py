@@ -86,14 +86,26 @@ async def repo_installation_added(event, gh, *args, **kwargs):
                 },
             )
             rtd_project_slug = resp["slug"]
+            branch_resp = await gh.getitem(
+                f"/repos/{repository['full_name']}",
+                oauth_token=installation_access_token["token"],
+            )
+            default_branch = branch_resp["default_branch"]
             await rtd_api.patch(
-                f"projects/{rtd_project_slug}/", data={"external_builds_enabled": True}
+                f"projects/{rtd_project_slug}/",
+                data={
+                    "external_builds_enabled": True,
+                    "default_branch": default_branch,
+                },
             )
             issue_url = response["url"]
+
             await gh.post(
                 f"{issue_url}/comments",
                 accept="application/vnd.github.v3+json",
-                data={'body': f"RTD project created at {resp['urls']['documentation']} on {resp['created']}"},
+                data={
+                    "body": f"RTD project created at {resp['urls']['documentation']} on {resp['created']}"
+                },
                 oauth_token=installation_access_token["token"],
             )
             await gh.patch(
