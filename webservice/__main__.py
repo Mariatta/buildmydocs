@@ -93,7 +93,7 @@ async def repo_installation_added(event, gh, *args, **kwargs):
             await gh.post(
                 f"{issue_url}/comments",
                 accept="application/vnd.github.v3+json",
-                data=f"RTD project created at {resp['urls']['documentation']} on {resp['created']}",
+                data={'body': f"RTD project created at {resp['urls']['documentation']} on {resp['created']}"},
                 oauth_token=installation_access_token["token"],
             )
             await gh.patch(
